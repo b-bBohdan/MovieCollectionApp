@@ -1,0 +1,8 @@
+@import "tailwindcss";
+.search-container{
+    width: 80%;
+    height: auto;
+}
+.search-container button{
+    height: 90%;
+}
