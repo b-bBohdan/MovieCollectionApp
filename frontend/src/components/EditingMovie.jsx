@@ -1,0 +1,70 @@
+import { Form, useNavigate } from "react-router-dom";
+
+export default function EditingMovie({ movie }) {
+  const navigate = useNavigate();
+    console.log(movie);
+  return (
+    <div className="max-w-4xl mx-auto p-6 space-y-6">
+      <h2 className="text-3xl font-bold">Edit Movie</h2>
+
+      <Form method="POST" className="space-y-4">
+        <div>
+          <label className="block font-semibold mb-1">Title</label>
+          <input
+            type="text"
+            name="title"
+            defaultValue={movie.Title}
+            required
+            className="w-full border rounded px-4 py-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold mb-1">Description</label>
+          <textarea
+            name="description"
+            defaultValue={movie.Description}
+            className="w-full border rounded px-4 py-2"
+            rows={4}
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block font-semibold mb-1">Release Year</label>
+            <input
+              type="number"
+              name="year"
+              defaultValue={movie.Year}
+              required
+              className="w-full border rounded px-4 py-2"
+            />
+          </div>
+          <div>
+            <label className="block font-semibold mb-1">Rating (out of 5)</label>
+            <input
+              type="number"
+              name="rating"
+              min="0"
+              max="5"
+              step="0.1"
+              defaultValue={movie.Rating}
+              required
+              className="w-full border rounded px-4 py-2"
+            />
+          </div>
+        </div>
+
+        <div className="pt-4">
+          <button
+            type="submit"
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow"
+          >
+            Save Changes
+          </button>
+        </div>
+      </Form>
+    </div>
+  );
+}
+

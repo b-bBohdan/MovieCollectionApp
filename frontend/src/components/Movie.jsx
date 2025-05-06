@@ -14,7 +14,7 @@ export default function Movie({ movie, ...props }) {
   };
   return (
     <div className="relative">
-      <Link to="ef">
+      <Link to={movie.imdbID}>
         <div className="movie rounded-xl">
           <div className="Year">
             <p>{movie.Year}</p>

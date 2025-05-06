@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Link as LinkIcon, Star, ThumbsUp } from "lucide-react"; // Nice icons
 
-export default function MovieDetail() {
+export default function MovieDetail({movie}) {
   const [likes, setLikes] = useState(0);
 
   const handleLike = () => setLikes(likes + 1);
@@ -14,7 +14,7 @@ export default function MovieDetail() {
         {/* Movie Poster */}
         <div className="flex-shrink-0">
           <img
-            src="https://m.media-amazon.com/images/M/MV5BMjQ4MzcxNDU3N15BMl5BanBnXkFtZTgwOTE1MzMxNzE@._V1_SX300.jpg"
+            src={movie.Poster}
             alt="Movie Poster"
             className="rounded-2xl shadow-lg object-cover"
           />
@@ -22,14 +22,13 @@ export default function MovieDetail() {
 
         {/* Movie Description */}
         <div className="flex-1 space-y-4">
-          <h1 className="text-4xl font-bold">Movie Title</h1>
+          <h1 className="text-4xl font-bold">{movie.Title}</h1>
           <p className="text-gray-600">
-            This is a short description of the movie. It talks about the story,
-            the characters, and the world they live in. An engaging, spoiler-free summary.
+            {movie.Description}
           </p>
           <p className="text-gray-500">
             <strong>Genre:</strong> Adventure, Sci-Fi<br />
-            <strong>Release Year:</strong> 2025
+            <strong>Release Year:</strong> {movie.Year}
           </p>
         </div>
       </div>
@@ -39,8 +38,8 @@ export default function MovieDetail() {
         {/* Ratings */}
         <div className="flex items-center gap-2">
           <Star className="text-yellow-400" />
-          <span className="text-lg font-semibold">4.5 / 5</span>
-          <span className="text-gray-500">(1200 ratings)</span>
+          <span className="text-lg font-semibold">{movie.Rating}/ 5</span>
+          <span className="text-gray-500">({movie.Ratings})</span>
         </div>
 
         {/* Like Button */}

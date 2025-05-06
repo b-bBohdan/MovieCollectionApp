@@ -4,7 +4,7 @@ import { useLoaderData } from 'react-router-dom';
 import { useState } from 'react';
 
 export async function loader() {
-  const res = await fetch('http://localhost:8080/movies');
+  const res = await fetch('http://localhost:1890/movies');
   const movies = await res.json();
   return movies;
 }
