@@ -5,7 +5,8 @@ import { Star } from "lucide-react";
 export default function SearchBar({setSearch}) {
 
   const handleChange = (e) => {
-    setSearch(e.target.value); // updates the search term as user types
+    setSearch(e.target.value); 
+    
   };
 
   // const dullAdd = (e) => {
@@ -33,7 +34,7 @@ export default function SearchBar({setSearch}) {
         className="flex-grow px-4 py-2 rounded-full focus:outline-none bg-gray-100 text-sm text-stone-700"
       />
       <button
-        //onClick={handleChange()}
+      
         className="w-10 h-10 flex items-center justify-center bg-amber-400 hover:bg-amber-500 rounded-full text-white transition-colors duration-300"
       >
         <FontAwesomeIcon icon={faSearch} className="text-base" />

@@ -1,10 +1,16 @@
 import express from 'express';
-import { getMovies, getMovie, postMovie, patchMovie } from '../controllers/movieController.js';
+import { getMovies, getMovie, postMovie, patchMovie, getMovieByName } from '../controllers/movieController.js';
 
 const movieRouter = express.Router();
 
 // POST /api/users/login
-movieRouter.get('/', getMovies);
+movieRouter.get('/', (req, res, next) => {
+    const name = req.query.search;
+    if (name) {
+      return getMovieByName(req, res, next);  // ✅ pass next
+    }
+    return getMovies(req, res, next);         // ✅ pass next
+  });
 movieRouter.get('/:id', getMovie);
 
 movieRouter.post('/post', postMovie);

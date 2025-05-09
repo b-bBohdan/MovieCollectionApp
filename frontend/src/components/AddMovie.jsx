@@ -1,11 +1,11 @@
 import { Form, useNavigate } from "react-router-dom";
 
-export default function EditingMovie({ movie }) {
+export default function AddMovie() {
   const navigate = useNavigate();
-    console.log(movie);
+   
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <h2 className="text-3xl font-bold">Edit Movie</h2>
+      <h2 className="text-3xl font-bold">ADD Movie</h2>
 
       <Form method="POST" className="space-y-4">
         <div>
@@ -13,7 +13,7 @@ export default function EditingMovie({ movie }) {
           <input
             type="text"
             name="title"
-            defaultValue={movie.Title}
+            defaultValue=""
             required
             className="w-full border rounded px-4 py-2"
           />
@@ -23,7 +23,7 @@ export default function EditingMovie({ movie }) {
           <label className="block font-semibold mb-1">Description</label>
           <textarea
             name="description"
-            defaultValue={movie.Description}
+            defaultValue=""
             className="w-full border rounded px-4 py-2"
             rows={4}
           />
@@ -35,7 +35,7 @@ export default function EditingMovie({ movie }) {
             <input
               type="number"
               name="year"
-              defaultValue={movie.Year}
+              defaultValue=""
               required
               className="w-full border rounded px-4 py-2"
             />
@@ -48,7 +48,7 @@ export default function EditingMovie({ movie }) {
               min="0"
               max="5"
               step="0.1"
-              defaultValue={movie.Rating}
+              defaultValue=""
               required
               className="w-full border rounded px-4 py-2"
             />
@@ -59,7 +59,7 @@ export default function EditingMovie({ movie }) {
           <input
             type="number"
             name="ratings"
-            defaultValue={movie.Ratings}
+            defaultValue=""
             required
             className="w-full border rounded px-4 py-2"
           />
@@ -69,7 +69,7 @@ export default function EditingMovie({ movie }) {
           <input
             type="text"
             name="imdbID"
-            defaultValue={movie.imdbID}
+            defaultValue=""
             required
             className="w-full border rounded px-4 py-2"
           />
@@ -79,7 +79,7 @@ export default function EditingMovie({ movie }) {
           <input
             type="text"
             name="type"
-            defaultValue={movie.Type}
+            defaultValue=""
             required
             className="w-full border rounded px-4 py-2"
           />
@@ -89,7 +89,7 @@ export default function EditingMovie({ movie }) {
           <input
             type="url"
             name="poster"
-            defaultValue={movie.Poster}
+            defaultValue=""
             required
             className="w-full border rounded px-4 py-2"
           />

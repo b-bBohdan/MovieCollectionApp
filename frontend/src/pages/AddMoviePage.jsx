@@ -1,17 +1,17 @@
-import { useLoaderData } from 'react-router-dom'
 import { redirect } from 'react-router-dom';
 import EditingMovie from '../components/EditingMovie'
+import AddMovie from '../components/AddMovie';
 
-export default function EditMoviePage(){
-    const movie = useLoaderData();
+export default function AddMoviePage(){
 
-    return <><EditingMovie movie={movie.movie}></EditingMovie></>
+    return <AddMovie></AddMovie>
 }
 
-export async function action ({ request, params }) {
+export async function action ({ request }) {
 
     const formData = await request.formData();
-    const updatedMovie = {
+    console.log(formData.get("poster"));
+    const Movie = {
       Title: formData.get("title"),
       Description: formData.get("description"),
       Year: formData.get("year"),
@@ -22,11 +22,11 @@ export async function action ({ request, params }) {
       Poster: formData.get("poster"),
     };
 
-    await fetch(`http://localhost:1890/movies/${params.id}`, {
-      method: "PATCH",
+    await fetch(`http://localhost:1890/movies/post`, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedMovie),
+      body: JSON.stringify(Movie),
     });
 
-    return redirect(`http://localhost:5173/${params.id}`);
+    return redirect(`http://localhost:5173/`);
   }

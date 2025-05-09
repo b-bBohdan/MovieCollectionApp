@@ -4,7 +4,7 @@ import RootLayout from './pages/RootLayout'
 import MoviesPage, {loader as moviesLoader} from './pages/MoviesPage'
 import SingleMoviePage, {loader as movieLoader} from './pages/SingleMoviePage'
 import EditMoviePage, {action as patchAction} from './pages/EditMoviePage'
-
+import AddMoviePage, {action as addAction} from './pages/AddMoviePage'
 
 
 const router = createBrowserRouter([
@@ -15,6 +15,10 @@ const router = createBrowserRouter([
        { index: true,
          element: <MoviesPage/>,
          loader: moviesLoader
+        },
+       { path: 'add',
+          element: <AddMoviePage/>,
+          action: addAction
         },
        { path: ':id',
         children:[
