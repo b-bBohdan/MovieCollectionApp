@@ -20,7 +20,7 @@ export default function MovieContainer({ movies }) {
   return (
     <>
       <div className="container">
-        {movies.map((movie) => (
+        { movies.map((movie) => (
           <Movie movie={movie} key={movie.imdbID} />
         ))}
       </div>

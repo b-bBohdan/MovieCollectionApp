@@ -8,20 +8,31 @@ export default function MoviesPage() {
   const [search, setSearch] = useState('');
   const [movies, setMovies] = useState(initialMovies);
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      const results = await SearchMovie(search);
-      console.log(results);
-      setMovies(results);
-    };
-    fetchMovies();
-  }, [search]); // runs every time search changes
+
+  const handleSearch = async () => {
+    const results = await SearchMovie(search);
+    console.log(results);
+    setMovies(results);
+  };
+
+  // useEffect(() => {
+  //   const fetchMovies = async () => {
+  //     const results = await SearchMovie(search);
+  //     console.log(results);
+  //     setMovies(results);
+  //   };
+  //   fetchMovies();
+  // }, [search]); // runs every time search changes
 
   return (
     <>
-      <SearchBar setSearch={setSearch} />
-      <p className='text-3xl'>{search}</p>
-      <MovieContainer movies={movies} />
+      <SearchBar setSearch={setSearch} onSearchClick={handleSearch} />
+      {/*<p className='text-3xl'>{search}</p>*/}
+      {movies.length===0
+              ?<p className='mt-7.5 text-4xl'>0 movies found your request</p>
+      
+              :<MovieContainer movies={movies} />}
+      
     </>
   );
 }

@@ -38,10 +38,7 @@ export async function getMovie(req, res, next) {
    
   
       if (matchingMovies.length === 0) {
-        return res.status(404).json( {
-        "Title": `${name}, Spiderman or Batman`,
-        
-      },);
+          return res.status(200).json([]);
       }
       setTimeout(()=>{
          res.status(200).json(matchingMovies);
