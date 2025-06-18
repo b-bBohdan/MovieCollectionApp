@@ -3,12 +3,16 @@ import express from 'express'
 import movieRouter from "./routes/movieRoute.js";
 import bodyParser from 'body-parser';
 import env from 'dotenv';
+import connectDB from './config/db.js'; 
+
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 
 env.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+connectDB();
 
 app.use(bodyParser.json());
 app.use(cors());

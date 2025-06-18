@@ -1,11 +1,30 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Link as LinkIcon, Star, ThumbsUp } from "lucide-react"; // Nice icons
+import { Link, redirect , useNavigate} from "react-router-dom";
+import { DeleteIcon, Link as LinkIcon, Star, ThumbsUp } from "lucide-react"; // Nice icons
 
 export default function MovieDetail({movie}) {
   const [likes, setLikes] = useState(0);
-
+  const navigate = useNavigate();
   const handleLike = () => setLikes(likes + 1);
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm("Are You sure of deleting obj?");
+    if (!confirmed){return}
+    
+    try{
+      const response = await fetch(`http://localhost:1890/movies/${movie.imdbID}`, {method: "DELETE"});
+      if(response.ok){
+        alert("Deleting succesful");
+        navigate("..");
+      }
+      else{     
+        alert("Already deleted");
+      }
+    } catch(err) {
+      alert("Something went wrong during deletion.");
+      console.error(err);
+  }
+}
 
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6">
@@ -54,6 +73,13 @@ export default function MovieDetail({movie}) {
           <Link to='edit'  className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-full shadow">    
               Edit
           </Link>
+          <button
+            onClick={handleDelete}
+            className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-full shadow"
+          >
+            <DeleteIcon />
+          
+          </button>
         </div>
 
         {/* Comments Placeholder */}

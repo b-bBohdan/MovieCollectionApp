@@ -1,4 +1,5 @@
 import SearchBar from '../components/SearchBar'
+import { Link } from 'react-router-dom'
 import MovieContainer from '../components/Container'
 import { useLoaderData } from 'react-router-dom'
 import { useState, useEffect } from 'react'
@@ -32,7 +33,12 @@ export default function MoviesPage() {
               ?<p className='mt-7.5 text-4xl'>0 movies found your request</p>
       
               :<MovieContainer movies={movies} />}
-      
+      <Link
+        to="add"
+        className="fixed bottom-8 right-8 bg-green-500 text-white text-3xl rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-green-600"
+      >
+        +
+      </Link>
     </>
   );
 }

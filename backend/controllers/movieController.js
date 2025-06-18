@@ -1,5 +1,8 @@
+import Movie from "../models/movie.model.js";
+
 export async function getMovies(req, res, next) {
     try {
+      const movies = await Movie.find();
       res.status(200).json(movies); // (soon this will be MongoDB call result)
     } catch (error) {
       next(error); // tell Express to go to error middleware
@@ -8,7 +11,7 @@ export async function getMovies(req, res, next) {
 
 export async function getMovie(req, res, next) {
   try {
-    const movie = movies.find( elem => elem.imdbID == (req.params.id));
+    const movie = await Movie.findOne({ imdbID: req.params.id });
   
     if (!movie) {
       return res.status(404).json({ error: 'Movie not found' });
@@ -31,8 +34,9 @@ export async function getMovie(req, res, next) {
       }
   
       // case-insensitive partial match
-       const matchingMovies = movies.filter(movie =>
-        movie.Title.toLowerCase().includes(name) );
+        const matchingMovies = await Movie.find({
+      Title: { $regex: name, $options: 'i' } // case-insensitive partial match
+    });
       
    
    
@@ -53,36 +57,57 @@ export async function getMovie(req, res, next) {
   export async function patchMovie(req, res, next){
   
     try {
-      const updatedMovie = req.body;
+     
       const Id = req.params.id;
+
+       const updatedMovie = await Movie.findOneAndUpdate(
+        {imdbID: Id},
+        {$set: req.body },
+        {new: true},
+      );
   
-      const Index = movies.findIndex((movie)=>{return movie.imdbID==Id});
-      movies[Index] = {...movies[Index], ...updatedMovie}; // Placeholder for future DB insert
-      res.status(201).json(movies[Index]);
-    } catch (error) {
-      console.error(error);
-      next(error);
+         if (!updatedMovie) {
+      return res.status(404).json({ error: 'Movie not found' });
     }
+
+    res.status(200).json(updatedMovie);
+  } catch (error) {
+    next(error);
   }
+}
 
   export async function postMovie(req, res, next){
   
     try {
-      const Movie = req.body;
-  
-      if (!Movie.Title || !Movie.Year || !Movie.imdbID) {
-        return res.status(400).json({ error: 'Missing required fields: title, year, imdbID' });
-      }
-  
-      movies.push(Movie); // Placeholder for future DB insert
-      res.status(201).json(Movie);
+      const movie = await Movie.create(req.body);
+      res.status(201).json(movie);
+     
     } catch (error) {
       console.error(error);
       next(error);
     }
   }
 
-const movies = [
+
+ export async function deleteMovie(req, res, next){
+  
+  try {
+    const Id = req.params.id;
+    const deletedMovie = await Movie.findOneAndDelete({ imdbID: Id });
+
+    if (!deletedMovie) {
+      return res.status(404).json({ error: "Movie not found" });
+    }
+
+    res.status(204).end(); // ✅ Correct way to send 204 with no body
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+
+const moviesArr = [
     {
         "Title": "Superman, Spiderman or Batman",
         "Description": "poiouijkl;poiukjliouiyhjkiuyhgjk",
