@@ -1,6 +1,9 @@
 import cors from 'cors';  
 import express from 'express'
+
 import movieRouter from "./routes/movieRoute.js";
+import userRouter from './routes/userRoute.js';
+
 import bodyParser from 'body-parser';
 import env from 'dotenv';
 import connectDB from './config/db.js'; 
@@ -17,6 +20,7 @@ connectDB();
 app.use(bodyParser.json());
 app.use(cors());
 app.use('/movies', movieRouter);
+app.use('/users', userRouter);
 app.use(notFound);
 app.use(errorHandler);
 

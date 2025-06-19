@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import LoginModal from "./LoginModal";
 import './Header.css'
 
 export default function Header() {
-    return (
+  const [showLogin, setShowLogin] = useState(false);
+
+    return (<>
       <header className="bg-white shadow-md mb-6 rounded-2xl">
         <div className="header-container mx-auto px-4 py-3 flex justify-between items-center ">
 
@@ -13,10 +17,13 @@ export default function Header() {
             <a href="#" className="text-gray-600 hover:text-amber-500">About</a>
             <a href="#" className="text-gray-600 hover:text-amber-500">Blog</a>
             <a href="#" className="text-gray-600 hover:text-amber-500">Work</a>
-            <a href="#" className="ml-6 text-gray-800 font-semibold hover:text-amber-500">Login</a>
+            <button onClick={()=>{setShowLogin(prew => !prew)}} className="ml-6 text-gray-800 font-semibold hover:text-amber-500">Login</button>
           </nav>
         </div>
       </header>
-    );
+
+      {showLogin && <LoginModal onClose={()=>{setShowLogin(prew => !prew)}}></LoginModal> }
+
+    </>);
   }
   

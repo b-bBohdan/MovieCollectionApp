@@ -5,6 +5,7 @@ import MoviesPage, {loader as moviesLoader} from './pages/MoviesPage'
 import SingleMoviePage, {loader as movieLoader} from './pages/SingleMoviePage'
 import EditMoviePage, {action as patchAction} from './pages/EditMoviePage'
 import AddMoviePage, {action as addAction} from './pages/AddMoviePage'
+ 
 
 
 const router = createBrowserRouter([
@@ -35,7 +36,8 @@ const router = createBrowserRouter([
             action: patchAction,
           }
         ] 
-      }
+      },     
+      
     ]
   }
 ]) 

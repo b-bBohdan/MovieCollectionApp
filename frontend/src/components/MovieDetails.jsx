@@ -8,7 +8,7 @@ export default function MovieDetail({movie}) {
   const handleLike = () => setLikes(likes + 1);
 
   const handleDelete = async () => {
-    const confirmed = window.confirm("Are You sure of deleting obj?");
+    const confirmed = window.confirm(`Are You sure of deleting ${movie.Title}?`);
     if (!confirmed){return}
     
     try{

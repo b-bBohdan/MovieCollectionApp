@@ -24,12 +24,7 @@ export default function MovieContainer({ movies }) {
           <Movie movie={movie} key={movie.imdbID} />
         ))}
       </div>
-      <Link
-        to="add"
-        className="fixed bottom-8 right-8 bg-green-500 text-white text-3xl rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-green-600"
-      >
-        +
-      </Link>
+      
     </>
   );
 }
