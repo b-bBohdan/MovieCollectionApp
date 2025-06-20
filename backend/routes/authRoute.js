@@ -1,5 +1,5 @@
 import express from "express";
-import passport, { session } from "passport";
+import passport from "passport";
 import { register } from "../controllers/authController.js";
 import {createJSONToken} from "../utils/auth.js"
 
