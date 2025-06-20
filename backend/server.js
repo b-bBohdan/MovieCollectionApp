@@ -3,10 +3,12 @@ import express from 'express'
 
 import movieRouter from "./routes/movieRoute.js";
 import userRouter from './routes/userRoute.js';
+import authRouter from './routes/authRoute.js'
 
-import bodyParser from 'body-parser';
+//import bodyParser from 'body-parser';
 import env from 'dotenv';
 import connectDB from './config/db.js'; 
+
 
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 
@@ -17,8 +19,14 @@ const PORT = process.env.PORT || 5000;
 
 connectDB();
 
-app.use(bodyParser.json());
-app.use(cors());
+//app.use(bodyParser.json());
+app.use(express.json());
+
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true,}));
+
+app.use('/auth', authRouter);
 app.use('/movies', movieRouter);
 app.use('/users', userRouter);
 app.use(notFound);
