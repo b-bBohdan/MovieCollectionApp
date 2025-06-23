@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import Movie from "../models/movie.model.js";
 
 export async function getUsers(req, res, next) {
     try {
@@ -115,22 +116,36 @@ export async function toggleMovie(req, res, next) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    let newLikes;
-    if (user.likes.includes(movieId)) {
-      // Unlike: remove the movieId
-      newLikes = user.likes.filter(id => id !== movieId);
-    } else {
-      // Like: add the movieId
-      newLikes = [...user.likes, movieId];
+    const movie = await Movie.findById(movieId);
+    if (!movie) {
+      return res.status(404).json({ error: "Movie not found" });
     }
+
+    const hasLiked = user.likes.includes(movieId);
+
+    // Update user likes
+    const updatedUserLikes = hasLiked
+      ? user.likes.filter(id => id.toString() !== movieId)
+      : [...user.likes, movieId];
+
+    // Update movie likedByUsers
+    const updatedMovieLikes = hasLiked
+      ? movie.likedByUsers.filter(id => id.toString() !== userId)
+      : [...movie.likedByUsers, userId];
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $set: { likes: newLikes } },
+      { likes: updatedUserLikes },
       { new: true }
     );
 
-    res.status(200).json(updatedUser);
+    const updatedMovie = await Movie.findByIdAndUpdate(
+      movieId,
+      { likedByUsers: updatedMovieLikes },
+      { new: true }
+    );
+
+    res.status(200).json({ user: updatedUser, movie: updatedMovie });
   } catch (error) {
     next(error);
   }

@@ -21,8 +21,8 @@ export async function action ({ request, params }) {
       Type: formData.get("type"),
       Poster: formData.get("poster"),
     };
-
-    await fetch(`http://localhost:1890/movies/${params.id}`, {
+   // console.log(params.id);
+    await fetch(`http://localhost:3000/movies/${params.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedMovie),

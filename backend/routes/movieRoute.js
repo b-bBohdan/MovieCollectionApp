@@ -1,5 +1,6 @@
 import express from 'express';
 import { getMovies, getMovie, postMovie, patchMovie, getMovieByName, deleteMovie } from '../controllers/movieController.js';
+import verifyToken from '../middlewares/verifyToken.js';
 
 const movieRouter = express.Router();
 
@@ -13,7 +14,7 @@ movieRouter.get('/', (req, res, next) => {
   });
 movieRouter.get('/:id', getMovie);
 
-movieRouter.post('/post', postMovie);
+movieRouter.post('/post', verifyToken , postMovie);
 movieRouter.patch('/:id', patchMovie);
 movieRouter.delete('/:id', deleteMovie);
 

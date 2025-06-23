@@ -1,4 +1,4 @@
-import JWT from "jsonwebtoken"
+import jwt from "jsonwebtoken"
 import env from 'dotenv';
 
 env.config();
@@ -6,5 +6,5 @@ env.config();
 const KEY = process.env.JWT_KEY;
 
 export function createJSONToken(id, email) {
-  return JWT.sign({userId: id, email: email}, KEY, { expiresIn: '1h' });
+  return jwt.sign({userId: id, email: email}, KEY, { expiresIn: '1h' });
 }

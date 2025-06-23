@@ -27,22 +27,30 @@ router.post(
 router.post("/signup", register);
 
 router.get(
-  "/auth/google/movies",
+  "/google/movies", (req, res, next)=>{
   passport.authenticate("google", {
-    session:false}, (req, res)=>{
+    session:false}, (err, user, info)=>{
 
-        const token = createJSONToken(req.user._id, req.user.email);
+       if (err || !user) {
+        return res.status(401).json({ message: 'Authentication failed' });
+    }
 
-        res.json({
-        token,
-        user: { id: req.user._id, email: req.user.email },
-    });
+        const token = createJSONToken(user._id, user.email);
 
-    })
+       res.cookie("token", token, {
+        httpOnly: true,       // Cannot be accessed via JS
+        //secure: true,         // HTTPS only
+        sameSite: "Strict",   // Prevent CSRF
+        maxAge: 60 * 60 * 1000 // 1 hour
+        });
+
+      res.redirect("http://localhost:5173/");
+
+    })(req, res, next);}
 );
 
 router.get(
-  "/auth/google",
+  "/google",
   passport.authenticate("google", { scope: ["profile", "email"], session: false })
 );
 

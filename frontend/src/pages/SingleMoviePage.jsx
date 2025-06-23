@@ -11,6 +11,7 @@ export default function SingleMoviePage(){
 
 export async function loader({request, params}) {
    const Id =  params.id;
+  
    
    
    //defer
@@ -20,8 +21,8 @@ export async function loader({request, params}) {
 }
 
 async function loadEvent(Id) {
-   
-    const response = await fetch(`http://localhost:1890/movies/${Id}`);
+     console.log(Id);
+    const response = await fetch(`http://localhost:3000/movies/${Id}`);
  
     if (!response.ok){
     // throw json({message: "Couldnt fetch the data"}, {status:500})

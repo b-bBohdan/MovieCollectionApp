@@ -12,7 +12,7 @@ export default function MovieDetail({movie}) {
     if (!confirmed){return}
     
     try{
-      const response = await fetch(`http://localhost:1890/movies/${movie.imdbID}`, {method: "DELETE"});
+      const response = await fetch(`http://localhost:3000/movies/${movie.imdbID}`, {method: "DELETE"});
       if(response.ok){
         alert("Deleting succesful");
         navigate("..");
@@ -40,9 +40,9 @@ export default function MovieDetail({movie}) {
         </div>
 
         {/* Movie Description */}
-        <div className="flex-1 space-y-4">
+        <div className="flex-1 space-y-4 max-w-prose">
           <h1 className="text-4xl font-bold">{movie.Title}</h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 break-words whitespace-pre-wrap">
             {movie.Description}
           </p>
           <p className="text-gray-500">

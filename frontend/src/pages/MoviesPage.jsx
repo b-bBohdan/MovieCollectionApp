@@ -45,8 +45,8 @@ export default function MoviesPage() {
 
 async function SearchMovie(title) {
   const url = title 
-    ? `http://localhost:1890/movies?search=${title}`
-    : `http://localhost:1890/movies`;
+    ? `http://localhost:3000/movies?search=${title}`
+    : `http://localhost:3000/movies`;
   
   const res = await fetch(url);
   const movies = await res.json();

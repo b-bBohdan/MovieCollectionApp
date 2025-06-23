@@ -80,6 +80,7 @@ export async function getMovie(req, res, next) {
   
     try {
       const movie = await Movie.create(req.body);
+      //console.log(movie);
       res.status(201).json(movie);
      
     } catch (error) {

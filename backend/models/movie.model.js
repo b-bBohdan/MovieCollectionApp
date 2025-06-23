@@ -9,6 +9,7 @@ const movieSchema = new mongoose.Schema({
   imdbID: { type: String, required: true, unique: true },
   Type: String,
   Poster: String,
+  likedByUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 }, {collection: 'movies'});
 
 const Movie = mongoose.model('Movie', movieSchema);

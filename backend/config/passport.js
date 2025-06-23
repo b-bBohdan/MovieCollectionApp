@@ -53,10 +53,12 @@ passport.use(
             password: null,
             provider: "google",
             likes: [],
-            profilepicture: profile.photos[0].value});
+            pp_Url: profile._json.picture || null});
 
+          console.log(newUser)
           return cb(null, newUser);
         } else {
+          console.log(result)
           return cb(null, result);
         }
       } catch (err) {
