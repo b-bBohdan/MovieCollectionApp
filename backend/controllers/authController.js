@@ -5,34 +5,37 @@ import { createJSONToken } from "../utils/auth.js"
 const saltRounds = 10;
 
 export async function register( req, res){
-    const email = req.body.email;
-    const password = req.body.password;
+    const user  = req.body;
+    //console.log(req.body);
 
     try{
-        const existUser = User.findOne({email: email})
+        const existUser = await User.findOne({email: user.email})
 
         if(existUser){
             return res.status(409).json({message: "User alreadyexists"});
 
         } 
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const hashedPassword = await bcrypt.hash(user.password, saltRounds);
         
         const newUser = await User.create({
-            ...req.body,
+            ...user,
             password: hashedPassword,
         })
 
-          const token = createJSONToken(user._id, user.email);
+          const token = createJSONToken(newUser._id, newUser.email);
           
-         res.status(201).json({
-      message: "User registered successfully",
-      token,
-      user: { id: newUser._id, email: newUser.email }
-    });
+          res.cookie("token", token, {
+            httpOnly: true,       // Cannot be accessed via JS
+            //secure: true,         // HTTPS only
+            sameSite: "Strict",   // Prevent CSRF
+            maxAge: 60 * 60 * 1000 // 1 hour
+            });
+
+         res.status(201).json({ message: "User registered" })
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Registration failed" });
+    return res.status(500).json({ message: "Registration failed" });
   }
 }
 

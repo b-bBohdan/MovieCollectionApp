@@ -12,7 +12,7 @@ const userRouter = express.Router();
 //     }
 //     return getUsers(req, res, next);         // ✅ pass next
 //   });
-// userRouter.get('/:id', getUser);
+userRouter.get('/',verifyToken, getUser);
 
 //userRouter.post('/post', postUser);
 userRouter.patch('/:id', verifyToken, patchUser);

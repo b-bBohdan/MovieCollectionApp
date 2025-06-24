@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoginModal from "./LoginModal";
 import './Header.css'
+import { useUser } from '../context/UserContext';
 
 export default function Header() {
   const [showLogin, setShowLogin] = useState(false);
+  const {user, isAuthenticated} = useUser();
+
+  console.log("USer info:", user, isAuthenticated);
+
 
     return (<>
       <header className="bg-white shadow-md mb-6 rounded-2xl">
@@ -17,12 +22,26 @@ export default function Header() {
             <a href="#" className="text-gray-600 hover:text-amber-500">About</a>
             <a href="#" className="text-gray-600 hover:text-amber-500">Blog</a>
             <a href="#" className="text-gray-600 hover:text-amber-500">Work</a>
-            <button onClick={()=>{setShowLogin(prew => !prew)}} className="ml-6 text-gray-800 font-semibold hover:text-amber-500">Login</button>
+            {!isAuthenticated &&   
+            <button onClick={()=>{setShowLogin(prew => !prew)}}
+             className="ml-6 text-gray-800 font-semibold hover:text-amber-500">
+              Login</button> }
+
+            {isAuthenticated &&
+            <Link to="/profile"
+             className="ml-4">
+              <img
+                src={isAuthenticated? user.pp_Url: ''}
+                alt="User avatar"
+                className="w-10 h-10 rounded-full object-cover border-2 border-amber-500 hover:scale-105 transition"
+              />
+            </Link>}
+          
           </nav>
         </div>
       </header>
 
-      {showLogin && <LoginModal onClose={()=>{setShowLogin(prew => !prew)}}></LoginModal> }
+      {!isAuthenticated && showLogin && (<LoginModal onClose={()=>{setShowLogin(prew => !prew)}}></LoginModal>) }
 
     </>);
   }

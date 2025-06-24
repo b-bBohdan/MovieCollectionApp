@@ -12,7 +12,8 @@ export async function getUsers(req, res, next) {
 
 export async function getUser(req, res, next) {
   try {
-    const user = await User.findOne({ _id: req.params.id });
+    const tokenUserId = req.user.userId
+    const user = await User.findOne({ _id: tokenUserId });
   
     if (!user) {
       return res.status(404).json({ error: 'User not found' });

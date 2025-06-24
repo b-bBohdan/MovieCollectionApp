@@ -1,7 +1,7 @@
 import SearchBar from '../components/SearchBar'
 import { Link } from 'react-router-dom'
 import MovieContainer from '../components/Container'
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData, redirect } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
 export default function MoviesPage() {
@@ -56,3 +56,27 @@ async function SearchMovie(title) {
 export async function loader() {
   return await SearchMovie(); // return the result!
 }
+
+
+export async function action ({ request }) {
+
+    const formData = await request.formData();
+    
+    const user = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+
+    const response = await fetch(`http://localhost:3000/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+      credentials: 'include'
+    });
+    if (!response.ok){
+      return redirect(`http://localhost:5173/register`);
+    }
+
+      return redirect(`http://localhost:5173/profile`)
+    
+  }

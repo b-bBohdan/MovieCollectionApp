@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post(
   "/login",
-  (res, req, next) => {
+  (req, res, next) => {
     passport.authenticate('local', {session: false}, (err, user, info)=>{
         if (err || !user) {
             return res.status(401).json({ message: "Invalid credentials" });
@@ -18,7 +18,14 @@ router.post(
         
            const token = createJSONToken(user._id, user.email);
 
-        return res.json({ token, user: { id: user._id, email: user.email } });
+            res.cookie("token", token, {
+            httpOnly: true,       // Cannot be accessed via JS
+            //secure: true,         // HTTPS only
+            sameSite: "Strict",   // Prevent CSRF
+            maxAge: 60 * 60 * 1000 // 1 hour
+            });
+
+            return res.status(201).json({ message: "User logged in" })
 
     })(req, res, next); //bc passport.authenticate returns middleware which we run with
   } 
@@ -53,5 +60,14 @@ router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"], session: false })
 );
+
+router.post('/logout', (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    sameSite: 'Strict',
+    secure: false, // or true if you're on HTTPS
+  });
+  res.status(200).json({ message: 'Logged out' });
+});
 
 export default router;
