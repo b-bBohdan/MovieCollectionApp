@@ -21,7 +21,7 @@ export async function loader({request, params}) {
 }
 
 async function loadEvent(Id) {
-     console.log(Id);
+    // console.log(Id);
     const response = await fetch(`http://localhost:3000/movies/${Id}`);
  
     if (!response.ok){

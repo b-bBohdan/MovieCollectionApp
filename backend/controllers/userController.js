@@ -109,8 +109,10 @@ export async function getUser(req, res, next) {
 
 export async function toggleMovie(req, res, next) {
   try {
-    const userId = req.body.id;
-    const movieId = req.params.id;
+    const userId = req.user.userId;
+
+    const movieId = req.body.movieId;
+    console.log(movieId," <-IDs->" , userId);
 
     const user = await User.findById(userId);
     if (!user) {
@@ -146,7 +148,7 @@ export async function toggleMovie(req, res, next) {
       { new: true }
     );
 
-    res.status(200).json({ user: updatedUser, movie: updatedMovie });
+    res.status(200).json({ user: updatedUser, movie: updatedMovie, isLiked:!hasLiked });
   } catch (error) {
     next(error);
   }

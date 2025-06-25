@@ -73,9 +73,6 @@ export async function action ({ request }) {
       body: JSON.stringify(user),
       credentials: 'include'
     });
-    if (!response.ok){
-      return redirect(`http://localhost:5173/register`);
-    }
 
       return redirect(`http://localhost:5173/profile`)
     

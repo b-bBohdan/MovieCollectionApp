@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, createContext, useContext } from "react";
 
 const UserContext = createContext();
 
@@ -6,6 +6,7 @@ export default function UserContextProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+
 
   const fetchUser = async () => {
     try {
@@ -34,16 +35,14 @@ export default function UserContextProvider({ children }) {
   }
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  
 
   return (
     <UserContext.Provider value={{
       user, setUser,
       isAuthenticated, setIsAuthenticated,
       loading, setLoading,
-      fetchUser // ← include it here
+      fetchUser , // ← include it here
     }}>
       {children}
     </UserContext.Provider>

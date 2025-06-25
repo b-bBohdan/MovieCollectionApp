@@ -15,8 +15,11 @@ const userRouter = express.Router();
 userRouter.get('/',verifyToken, getUser);
 
 //userRouter.post('/post', postUser);
+
+userRouter.patch('/toggle-like', verifyToken, toggleMovie);
+
 userRouter.patch('/:id', verifyToken, patchUser);
-userRouter.patch('/:id/toggle-like', verifyToken, toggleMovie);
+
 userRouter.delete('/:id', verifyToken, deleteUser);
 
 

@@ -1,9 +1,22 @@
-import { Link, Form } from "react-router-dom";
+import { Link, Form , useNavigation} from "react-router-dom";
+import { useEffect } from "react";
 
 export default function LoginModal({onClose}){
+
+    const navigation = useNavigation();
+
+    useEffect(() => {
+      if (navigation.state === "idle") {
+        // login form submitted, redirect happened, close modal
+        onClose();
+      }
+    }, [navigation.state]);
+
      const handleModalClick = (e) => {
         e.stopPropagation();
     };
+
+
     return <> {/* Backdrop + Centering Container */}
   <div
     className="fixed inset-0 bg-black/50 flex justify-center items-center z-51"
@@ -53,6 +66,7 @@ export default function LoginModal({onClose}){
         <div className="flex justify-end items-center gap-4 mt-4">
           <button
             type="submit"
+            //onClick={onClose}
             disabled={false}
             className="px-6 py-2 rounded-md bg-gray-300 text-gray-800 hover:bg-blue-300 transition-colors"
           >

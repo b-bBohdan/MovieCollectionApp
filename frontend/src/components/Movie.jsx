@@ -1,12 +1,23 @@
 import { Link } from 'react-router-dom'
 import { Star } from 'lucide-react'
 import { Heart } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useUser } from '../context/UserContext'
 import './Movie.css'
 
 export default function Movie({ movie, ...props }) {
-  const [liked, setLiked] = useState(false);
+  const { user } = useUser();
+  const userId = user?._id;
 
+  const [liked, setLiked] = useState(movie.likedByUsers.in);
+
+
+  useEffect(() => {
+    if (movie && userId) {
+      const isLiked = movie.likedByUsers.some(id => id.toString() === userId);
+      setLiked(isLiked);
+    }
+  }, [movie, userId]);
   
   const toggleLike = (e) => {
     e.stopPropagation(); // Prevent click from triggering the link
@@ -39,7 +50,7 @@ export default function Movie({ movie, ...props }) {
 
       <Heart
            className={`absolute bottom-6 right-15 z-50 cursor-pointer ${liked ? 'text-red-500' : 'text-white'}`}
-           onClick={toggleLike}
+           //onClick={toggleLike}
       />
     </div>
   );

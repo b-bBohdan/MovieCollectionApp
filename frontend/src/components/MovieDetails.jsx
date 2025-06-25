@@ -3,10 +3,34 @@ import { Link, redirect , useNavigate} from "react-router-dom";
 import { DeleteIcon, Link as LinkIcon, Star, ThumbsUp } from "lucide-react"; // Nice icons
 
 export default function MovieDetail({movie}) {
-  const [likes, setLikes] = useState(0);
+  const [likes, setLikes] = useState(movie.likedByUsers.length);
   const navigate = useNavigate();
-  const handleLike = () => setLikes(likes + 1);
 
+   const handleLikeToggle = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/users/toggle-like", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ movieId: movie._id }),
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+       // setLiked(data.isLiked);
+        setLikes(prev => data.isLiked ? prev + 1 : prev - 1);
+      } else {
+         const data = await response.json();
+        console.error("Failed to toggle like", data);
+        navigate("/register");
+      }
+    } catch (err) {
+      console.error("Network error:", err);
+    }
+  };
+
+
+console.log(movie);
   const handleDelete = async () => {
     const confirmed = window.confirm(`Are You sure of deleting ${movie.Title}?`);
     if (!confirmed){return}
@@ -64,7 +88,7 @@ export default function MovieDetail({movie}) {
         {/* Like Button */}
         <div className="flex items-center gap-2">
           <button
-            onClick={handleLike}
+            onClick={handleLikeToggle}
             className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow"
           >
             <ThumbsUp />
