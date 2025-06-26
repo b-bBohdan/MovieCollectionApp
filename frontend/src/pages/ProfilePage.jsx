@@ -1,41 +1,54 @@
-import { useUser } from "../context/UserContext"
-import { Form } from "react-router-dom";
+import { useUser } from "../context/UserContext";
+import Profile from "../components/profile/Profile";
+import LikedMovies from "../components/profile/LikedMovies";
+import { useLoaderData } from "react-router-dom";
 
-export default function ProfilePage(){
-
-    const {user} = useUser();
-
-    return <>
-    
-            <div className="max-w-5xl mx-auto p-6 space-y-6 flex flex-row">
-                {/* Top Section */}
-                <div className="flex flex-col md:flex-row gap-6">
-                    {/* Movie Poster */}
-                    <div className="flex-shrink-0">
-                    <img
-                        src={user && user.pp_Url}
-                        alt="Movie Poster"
-                        className="rounded-full shadow-lg object-cover"
-                    />
-                    </div>
-                </div>
-
-                <div className="flex-1 space-y-4 max-w-prose">
-                <h1 className="text-4xl font-bold">{user && user.username}</h1>
-                <p className="text-gray-600 break-words whitespace-pre-wrap">
-                    {"No info"}
-                </p>
-                <p className="text-gray-500">
-                    <strong>Email:</strong> {user && user.email}
-                </p>
-                <Form method="post" action="/logout">
-  <button type="submit">Logout</button>
-</Form>
-            </div>
-            </div>
-
-           
-           
-        
+export default function ProfilePage() {
+  const data = useLoaderData();
+  const likedMovies = data.movie;
+  const { user } = useUser();
+  return (
+    <>
+      <Profile user={user}></Profile>
+      {likedMovies.length === 0 ? (
+        <p className="mt-7.5 text-4xl">You haven't liked any movie yet</p>
+      ) : (
+        <LikedMovies likedMovies={likedMovies} />
+      )}
     </>
+  );
+}
+
+export async function loader({ request, params }) {
+  //defer
+  return {
+    movie: await loadLikedMoviess(), /// so the navigation will load only when event loaded
+  };
+}
+
+async function loadLikedMoviess() {
+  // console.log(Id);
+  try {
+    const response = await fetch("http://localhost:3000/users/likes", {
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      // throw json({message: "Couldnt fetch the data"}, {status:500})
+      throw new Response(
+        JSON.stringify({ message: " coulddddddddnot fetch data " }),
+        { status: 500 }
+      );
+    } else {
+      const resData = await response.json();
+      return resData;
+    }
+  } catch {
+    throw new Response(
+      JSON.stringify({ message: " coulddddddddnot fetch data " }),
+      { status: 500 }
+    );
+  }
 }

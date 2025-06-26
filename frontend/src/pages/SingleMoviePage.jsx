@@ -1,6 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import MovieDetail from "../components/MovieDetails";
 
+
 export default function SingleMoviePage(){
     const movie = useLoaderData();
     return <>      

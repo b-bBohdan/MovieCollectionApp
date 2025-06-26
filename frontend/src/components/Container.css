@@ -1,39 +1,79 @@
 @import "tailwindcss";
 
+.smallcontainer {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* default: 5 columns */
+  gap: 6px;
+  padding: 8px;
+}
+
+.smallcontainer .movie {
+  margin: auto;
+  transform: scale(0.9); /* smaller visual scale */
+}
+
+.smallcontainer .likeMovie {
+  opacity: 0;
+}
+
 .container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    gap: 10px; /* spacing between items */
-    padding: 10px;
-  }
-  
-  .item {
-    /*background-color: #ddd;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  gap: 10px; /* spacing between items */
+  padding: 10px;
+}
+
+.item {
+  /*background-color: #ddd;
     padding: 20px;
     text-align: center;
     border: 1px solid #ccc;*/
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .container {
+    grid-template-columns: repeat(4, 1fr); /* 3 columns */
   }
-  
-  /* Responsive breakpoints */
-  @media (max-width: 1200px) {
-    .container {
-      grid-template-columns: repeat(4, 1fr); /* 3 columns */
-    }
+}
+@media (max-width: 1000px) {
+  .container {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
   }
-  @media (max-width: 1000px) {
-    .container {
-      grid-template-columns: repeat(3, 1fr); /* 3 columns */
-    }
+}
+
+@media (max-width: 800px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
   }
-  
-  @media (max-width: 800px) {
-    .container {
-      grid-template-columns: repeat(2, 1fr); /* 2 columns */
-    }
+}
+
+@media (max-width: 500px) {
+  .container {
+    grid-template-columns: repeat(1, 1fr); /* 1 column */
   }
-  
-  @media (max-width: 500px) {
-    .container {
-      grid-template-columns: repeat(1, 1fr); /* 1 column */
-    }
+}
+
+@media (max-width: 1300px) {
+  .smallcontainer {
+    grid-template-columns: repeat(4, 1fr);
   }
+}
+
+@media (max-width: 1000px) {
+  .smallcontainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .smallcontainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 450px) {
+  .smallcontainer {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

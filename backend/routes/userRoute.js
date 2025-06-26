@@ -1,6 +1,15 @@
-import express from 'express';
-import { getUsers, getUser, postUser, patchUser, getUserByName, deleteUser, toggleMovie } from '../controllers/userController.js';
-import verifyToken from '../middlewares/verifyToken.js';
+import express from "express";
+import {
+  getUsers,
+  getUser,
+  postUser,
+  patchUser,
+  getUserByName,
+  deleteUser,
+  toggleMovie,
+  getLikes,
+} from "../controllers/userController.js";
+import verifyToken from "../middlewares/verifyToken.js";
 
 const userRouter = express.Router();
 
@@ -12,15 +21,16 @@ const userRouter = express.Router();
 //     }
 //     return getUsers(req, res, next);         // ✅ pass next
 //   });
-userRouter.get('/',verifyToken, getUser);
+userRouter.get("/", verifyToken, getUser);
 
 //userRouter.post('/post', postUser);
 
-userRouter.patch('/toggle-like', verifyToken, toggleMovie);
+userRouter.patch("/toggle-like", verifyToken, toggleMovie);
 
-userRouter.patch('/:id', verifyToken, patchUser);
+userRouter.get("/likes", verifyToken, getLikes);
 
-userRouter.delete('/:id', verifyToken, deleteUser);
+userRouter.patch("/:id", verifyToken, patchUser);
 
+userRouter.delete("/:id", verifyToken, deleteUser);
 
 export default userRouter;
