@@ -1,37 +1,46 @@
 import AuthForm from "../components/AuthForm";
-import { redirect } from "react-router-dom";
+import { redirect, useLocation } from "react-router-dom";
 
+export default function AuthenticationPage() {
+  const { pathname } = useLocation();
+  const method = pathname.includes("login") ? "login" : "register";
 
-export default function AuthenticationPage(){
-
-    return <AuthForm />;
-
-  
+  return <AuthForm />;
 }
 
-export async function action ({ request }) {
+export async function action({ request }) {
+  const searchParams = new URL(request.url).searchParams;
+  const mode = searchParams.get("mode") || "signup";
 
-    const formData = await request.formData();
-    
-    const user = {
-      username: formData.get("username"),
-      email: formData.get("email"),
-      password: formData.get("password"),
-      likes: [],
-      pp_Url: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106",
-      provider: null,
-    };
-
-    const response = await fetch(`http://localhost:3000/auth/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user),
-      credentials: 'include'
+  if (mode !== "login" && mode !== "signup") {
+    throw new Response(JSON.stringify({ message: "Unsupported mode" }), {
+      status: 422,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
-    if (!response.ok){
-      return redirect(`http://localhost:5173/register`);
-    }
-
-      return redirect(`http://localhost:5173/`)
-    
   }
+  const formData = await request.formData();
+
+  const user = {
+    username: formData.get("username"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+    likes: [],
+    pp_Url:
+      "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg?20200418092106",
+    provider: null,
+  };
+
+  const response = await fetch(`http://localhost:3000/auth/${mode}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(user),
+    credentials: "include",
+  });
+  if (!response.ok) {
+    return redirect(`http://localhost:5173/register`);
+  }
+
+  return redirect(`http://localhost:5173/`);
+}

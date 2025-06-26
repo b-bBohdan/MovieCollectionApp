@@ -29,13 +29,36 @@ export async function getLikes(req, res, next) {
   try {
     const tokenUserId = req.user.userId;
 
-    const user = await User.findById(tokenUserId).populate("likes");
+    const user = await User.findById(tokenUserId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.status(200).json(user.likes);
+    const movieIds = user.likes.map((id) => id.toString());
+
+    const existingMovies = await Movie.find({ _id: { $in: movieIds } }, "_id");
+    const existingMovieIds = new Set(
+      existingMovies.map((m) => m._id.toString())
+    );
+
+    const likedClean = user.likes.filter((id) =>
+      existingMovieIds.has(id.toString())
+    );
+
+    // Update user only if needed
+    if (likedClean.length !== user.likes.length) {
+      await User.findByIdAndUpdate(
+        tokenUserId,
+        { likes: likedClean },
+        { new: true }
+      );
+    }
+
+    // Return populated likes
+    const updatedUser = await User.findById(tokenUserId).populate("likes");
+
+    res.status(200).json(updatedUser.likes);
   } catch (error) {
     next(error);
   }

@@ -2,19 +2,29 @@ import { useUser } from "../context/UserContext";
 import Profile from "../components/profile/Profile";
 import LikedMovies from "../components/profile/LikedMovies";
 import { useLoaderData } from "react-router-dom";
+import { Suspense } from "react";
+import { Await } from "react-router-dom";
 
 export default function ProfilePage() {
   const data = useLoaderData();
-  const likedMovies = data.movie;
+  console.log(data);
+  //const likedMovies = data.movie;
   const { user } = useUser();
   return (
     <>
       <Profile user={user}></Profile>
-      {likedMovies.length === 0 ? (
-        <p className="mt-7.5 text-4xl">You haven't liked any movie yet</p>
-      ) : (
-        <LikedMovies likedMovies={likedMovies} />
-      )}
+
+      <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
+        <Await resolve={data.movies}>
+          {(likedMovies) => {
+            return likedMovies.length === 0 ? (
+              <p className="mt-7.5 text-4xl">You haven't liked any movie yet</p>
+            ) : (
+              <LikedMovies likedMovies={likedMovies} />
+            );
+          }}
+        </Await>
+      </Suspense>
     </>
   );
 }
@@ -22,7 +32,7 @@ export default function ProfilePage() {
 export async function loader({ request, params }) {
   //defer
   return {
-    movie: await loadLikedMoviess(), /// so the navigation will load only when event loaded
+    movies: loadLikedMoviess(), /// so the navigation will load only when event loaded
   };
 }
 

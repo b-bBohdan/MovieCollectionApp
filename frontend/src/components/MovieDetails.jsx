@@ -1,26 +1,26 @@
 import { useState } from "react";
-import { Link, redirect , useNavigate} from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { DeleteIcon, Link as LinkIcon, Star, ThumbsUp } from "lucide-react"; // Nice icons
 
-export default function MovieDetail({movie}) {
+export default function MovieDetail({ movie }) {
   const [likes, setLikes] = useState(movie.likedByUsers.length);
   const navigate = useNavigate();
 
-   const handleLikeToggle = async () => {
+  const handleLikeToggle = async () => {
     try {
       const response = await fetch("http://localhost:3000/users/toggle-like", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ movieId: movie._id }),
-        credentials: 'include'
+        credentials: "include",
       });
 
       if (response.ok) {
         const data = await response.json();
-       // setLiked(data.isLiked);
-        setLikes(prev => data.isLiked ? prev + 1 : prev - 1);
+        // setLiked(data.isLiked);
+        setLikes((prev) => (data.isLiked ? prev + 1 : prev - 1));
       } else {
-         const data = await response.json();
+        const data = await response.json();
         console.error("Failed to toggle like", data);
         navigate("/register");
       }
@@ -29,26 +29,35 @@ export default function MovieDetail({movie}) {
     }
   };
 
-
-console.log(movie);
+  console.log(movie);
   const handleDelete = async () => {
-    const confirmed = window.confirm(`Are You sure of deleting ${movie.Title}?`);
-    if (!confirmed){return}
-    
-    try{
-      const response = await fetch(`http://localhost:3000/movies/${movie.imdbID}`, {method: "DELETE"});
-      if(response.ok){
+    const confirmed = window.confirm(
+      `Are You sure of deleting ${movie.Title}?`
+    );
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/movies/${movie.imdbID}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      if (response.ok) {
         alert("Deleting succesful");
         navigate("..");
-      }
-      else{     
+      } else {
         alert("Already deleted");
       }
-    } catch(err) {
+    } catch (err) {
       alert("Something went wrong during deletion.");
       console.error(err);
-  }
-}
+    }
+  };
 
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6">
@@ -70,7 +79,8 @@ console.log(movie);
             {movie.Description}
           </p>
           <p className="text-gray-500">
-            <strong>Genre:</strong> Adventure, Sci-Fi<br />
+            <strong>Genre:</strong> Adventure, Sci-Fi
+            <br />
             <strong>Release Year:</strong> {movie.Year}
           </p>
         </div>
@@ -94,21 +104,25 @@ console.log(movie);
             <ThumbsUp />
             Like {likes}
           </button>
-          <Link to='edit'  className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-full shadow">    
-              Edit
+          <Link
+            to="edit"
+            className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-full shadow"
+          >
+            Edit
           </Link>
           <button
             onClick={handleDelete}
             className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-full shadow"
           >
             <DeleteIcon />
-          
           </button>
         </div>
 
         {/* Comments Placeholder */}
         <div className="text-gray-600">
-          <p><strong>Comments:</strong></p>
+          <p>
+            <strong>Comments:</strong>
+          </p>
           <p>Coming soon...</p>
         </div>
       </div>
