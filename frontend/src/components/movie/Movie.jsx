@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import { Star } from "lucide-react";
 import { Heart } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useUser } from "../context/UserContext";
+import { useUser } from "../../context/UserContext";
 import "./Movie.css";
 
 export default function Movie({ movie, ...props }) {
-  const { user } = useUser();
+  const { user, isAuthenticated } = useUser();
   const userId = user?._id;
 
   const [liked, setLiked] = useState(movie.likedByUsers.in);
@@ -15,6 +15,10 @@ export default function Movie({ movie, ...props }) {
     if (movie && userId) {
       const isLiked = movie.likedByUsers.some((id) => id.toString() === userId);
       setLiked(isLiked);
+      console.log("USEEEEE EFFEEEEEECT");
+    }
+    if (!isAuthenticated) {
+      setLiked(false);
     }
   }, [movie, userId]);
 

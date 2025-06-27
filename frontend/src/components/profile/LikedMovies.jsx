@@ -1,4 +1,4 @@
-import Movie from "../Movie";
+import Movie from "../movie/Movie";
 
 export default function LikedMovies({ likedMovies }) {
   if (!Array.isArray(likedMovies)) {

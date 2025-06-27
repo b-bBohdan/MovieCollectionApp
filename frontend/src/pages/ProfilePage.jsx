@@ -4,6 +4,8 @@ import LikedMovies from "../components/profile/LikedMovies";
 import { useLoaderData } from "react-router-dom";
 import { Suspense } from "react";
 import { Await } from "react-router-dom";
+import GhostContainer from "../components/movie/GhostContainer";
+import Container from "../components/movie/Container";
 
 export default function ProfilePage() {
   const data = useLoaderData();
@@ -13,14 +15,19 @@ export default function ProfilePage() {
   return (
     <>
       <Profile user={user}></Profile>
+      <div className="text-base md:text-3xl text-left">
+        <strong> Your liked likedMovies:</strong>
+      </div>
 
-      <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
+      <Suspense fallback={<GhostContainer type="smallcontainer" />}>
         <Await resolve={data.movies}>
           {(likedMovies) => {
             return likedMovies.length === 0 ? (
               <p className="mt-7.5 text-4xl">You haven't liked any movie yet</p>
             ) : (
-              <LikedMovies likedMovies={likedMovies} />
+              <>
+                <Container type="smallcontainer" movies={likedMovies} />
+              </>
             );
           }}
         </Await>

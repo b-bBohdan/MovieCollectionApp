@@ -22,7 +22,7 @@ export default function MovieDetail({ movie }) {
       } else {
         const data = await response.json();
         console.error("Failed to toggle like", data);
-        navigate("/register");
+        navigate("/auth");
       }
     } catch (err) {
       console.error("Network error:", err);

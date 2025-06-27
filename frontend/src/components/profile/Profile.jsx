@@ -1,6 +1,9 @@
 import { Form } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 
 export default function Profile({ user }) {
+  const { setIsAuthenticated } = useUser();
+
   return (
     <>
       <div className="max-w-5xl mx-auto p-6 space-y-6 flex flex-row">
@@ -25,7 +28,13 @@ export default function Profile({ user }) {
             <strong>Email:</strong> {user && user.email}
           </p>
 
-          <Form method="post" action="/logout">
+          <Form
+            method="post"
+            action="/logout"
+            onSubmit={() => {
+              setIsAuthenticated(false);
+            }}
+          >
             <button
               type="submit"
               className="bg-stone-200 text-black p-3 rounded-3xl hover:bg-stone-400"

@@ -1,15 +1,14 @@
 import { useLocation } from "react-router-dom";
 import Header from "../components/Header";
-import { Outlet, useNavigate } from 'react-router-dom';
-import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext";
 
-export default function RootLayout(){
+export default function RootLayout() {
+  const { fetchUser } = useUser();
+  const location = useLocation();
 
-    const {fetchUser} = useUser();
-    const location = useLocation();
-
-    useEffect(() => {
+  useEffect(() => {
     //     const shouldFetchUser =
     //   location.pathname === "/" ||
     //   location.pathname === "/login" ||
@@ -17,15 +16,14 @@ export default function RootLayout(){
 
     // if (shouldFetchUser) {
     //   fetchUser();}
-     fetchUser();
-    }, [location.pathname]);
+    fetchUser();
+  }, [location.pathname]);
 
+  return (
+    <>
+      <Header />
 
-
-
-
-    return <>
-            <Header></Header>  
-            <Outlet></Outlet>  
-        </>
+      <Outlet></Outlet>
+    </>
+  );
 }
