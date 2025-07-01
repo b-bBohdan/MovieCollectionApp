@@ -1,18 +1,33 @@
 import User from "../models/user.model.js";
 import Movie from "../models/movie.model.js";
+import { Request, Response, NextFunction } from "express";
 
-export async function getUsers(req, res, next) {
+export async function getUsers(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const users = await User.find();
-    res.status(200).json(Users); // (soon this will be MongoDB call result)
+    return res.status(200).json(users); // (soon this will be MongoDB call result)
   } catch (error) {
     next(error); // tell Express to go to error middleware
   }
 }
 
-export async function getUser(req, res, next) {
+export async function getUser(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> {
   try {
-    const tokenUserId = req.user.userId;
+    const tokenUserId = (req as Request & { user?: { userId: string } }).user
+      ?.userId;
+
+    if (!tokenUserId) {
+      return res.status(401).json({ error: "Unauthorized: missing userId" });
+    }
+
     const user = await User.findOne({ _id: tokenUserId });
 
     if (!user) {
@@ -25,9 +40,18 @@ export async function getUser(req, res, next) {
   }
 }
 
-export async function getLikes(req, res, next) {
+export async function getLikes(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> {
   try {
-    const tokenUserId = req.user.userId;
+    const tokenUserId = (req as Request & { user?: { userId: string } }).user
+      ?.userId;
+
+    if (!tokenUserId) {
+      return res.status(401).json({ error: "Unauthorized: missing userId" });
+    }
 
     const user = await User.findById(tokenUserId);
 
@@ -58,16 +82,25 @@ export async function getLikes(req, res, next) {
     // Return populated likes
     const updatedUser = await User.findById(tokenUserId).populate("likes");
 
+    if (updatedUser === null) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     res.status(200).json(updatedUser.likes);
   } catch (error) {
     next(error);
   }
 }
 
-export async function getUserByName(req, res, next) {
-  const name = req.query.search?.trim().toLowerCase(); // handle undefined trim and lowercase
-
+export async function getUserByName(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> {
   try {
+    const raw_name: string | undefined = req.query.search?.toString(); // handle undefined trim and lowercase
+    const name = raw_name ? raw_name.trim().toLowerCase() : null;
+
     if (!name) {
       return res.status(400).json({ error: "Search query is required" });
     }
@@ -88,7 +121,11 @@ export async function getUserByName(req, res, next) {
   }
 }
 
-export async function patchUser(req, res, next) {
+export async function patchUser(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> {
   try {
     const Id = req.params.id;
 
@@ -108,7 +145,11 @@ export async function patchUser(req, res, next) {
   }
 }
 
-export async function postUser(req, res, next) {
+export async function postUser(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> {
   try {
     const user = await User.create(req.body);
     res.status(201).json(user);
@@ -118,7 +159,11 @@ export async function postUser(req, res, next) {
   }
 }
 
-export async function deleteUser(req, res, next) {
+export async function deleteUser(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> {
   try {
     const Id = req.params.id;
     const deletedUser = await User.findOneAndDelete({ _id: Id });
@@ -133,14 +178,23 @@ export async function deleteUser(req, res, next) {
   }
 }
 
-export async function toggleMovie(req, res, next) {
+export async function toggleMovie(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> {
   try {
-    const userId = req.user.userId;
+    const tokenUserId = (req as Request & { user?: { userId: string } }).user
+      ?.userId;
+
+    if (!tokenUserId) {
+      return res.status(401).json({ error: "Unauthorized: missing userId" });
+    }
 
     const movieId = req.body.movieId;
-    console.log(movieId, " <-IDs->", userId);
+    console.log(movieId, " <-IDs->", tokenUserId);
 
-    const user = await User.findById(userId);
+    const user = await User.findById(tokenUserId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -159,11 +213,11 @@ export async function toggleMovie(req, res, next) {
 
     // Update movie likedByUsers
     const updatedMovieLikes = hasLiked
-      ? movie.likedByUsers.filter((id) => id.toString() !== userId)
-      : [...movie.likedByUsers, userId];
+      ? movie.likedByUsers.filter((id) => id.toString() !== tokenUserId)
+      : [...movie.likedByUsers, tokenUserId];
 
     const updatedUser = await User.findByIdAndUpdate(
-      userId,
+      tokenUserId,
       { likes: updatedUserLikes },
       { new: true }
     );

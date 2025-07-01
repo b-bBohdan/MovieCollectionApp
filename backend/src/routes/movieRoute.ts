@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response, Request, NextFunction } from "express";
 import {
   getMovies,
   getMovie,
@@ -8,17 +8,21 @@ import {
   deleteMovie,
 } from "../controllers/movieController.js";
 import verifyToken from "../middlewares/verifyToken.js";
+import { promises } from "dns";
 
 const movieRouter = express.Router();
 
 // POST /api/users/login
-movieRouter.get("/", (req, res, next) => {
-  const name = req.query.search;
-  if (name) {
-    return getMovieByName(req, res, next); // ✅ pass next
+movieRouter.get(
+  "/",
+  (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    const name = req.query.search;
+    if (name) {
+      return getMovieByName(req, res, next); // ✅ pass next
+    }
+    return getMovies(req, res, next); // ✅ pass next
   }
-  return getMovies(req, res, next); // ✅ pass next
-});
+);
 movieRouter.get("/:id", getMovie);
 
 movieRouter.post("/post", verifyToken, postMovie);
