@@ -22,11 +22,11 @@ export default function Header() {
     <>
       <header className="bg-white shadow-md mb-6 rounded-2xl">
         <div className="header-container mx-auto px-4 py-3 flex justify-between items-center ">
-          <div className="text-2xl font-bold text-gray-800">
+          <div className="text-2xl font-bold text-gray-800 sm:text-xl">
             <Link to="/">Mogo</Link>
           </div>
 
-          <nav className="flex space-x-6">
+          <nav className="flex space-x-3 sm:flex sm:space-x-2">
             <a href="#" className="text-gray-600 hover:text-amber-500">
               Service
             </a>
@@ -55,7 +55,8 @@ export default function Header() {
                 <img
                   src={user.pp_Url}
                   alt="User avatar"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-amber-500 hover:scale-105 transition"
+                  className="relative
+                  w-10 h-10 rounded-full object-cover border-2 border-amber-500 hover:scale-105 transition"
                 />
               </Link>
             )}

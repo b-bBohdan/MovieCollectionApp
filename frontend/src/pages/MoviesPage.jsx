@@ -35,7 +35,7 @@ export default function MoviesPage() {
 
       <Link
         to="add"
-        className="fixed bottom-8 right-8 bg-green-500 text-white text-3xl rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-green-600"
+        className="z-60 fixed bottom-8 right-8 bg-green-500 text-white text-3xl rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-green-600"
       >
         +
       </Link>
@@ -72,5 +72,5 @@ export async function action({ request }) {
     credentials: "include",
   });
 
-  return redirect(`http://localhost:5173/profile`);
+  return redirect(`http://localhost:5173/`);
 }

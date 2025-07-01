@@ -1,25 +1,37 @@
 /* Header.css */
+.header-container {
+  max-width: 1200px;
+  min-height: 50px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav_link {
+  text-decoration: none;
+  color: #555;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.nav_link:hover {
+  color: #ff9900;
+}
+
+@media only screen and (max-width: 500px) {
   .header-container {
-    max-width: 1200px;
-    min-height: 50px;
-    margin: 0 auto;
-    padding: 0 20px;
+    font-size: 10px;
   }
-   
+}
+@media only screen and (max-width: 400px) {
+  .img {
+    position: absolute;
+  }
   .nav {
-    display: flex;
-    gap: 20px;
+    position: absolute;
   }
-  
-  .nav_link {
-    text-decoration: none;
-    color: #555;
-    font-size: 16px;
-    transition: color 0.3s;
-  }
-  
-  .nav_link:hover {
-    color: #ff9900;
-  }
-  
-  
+}

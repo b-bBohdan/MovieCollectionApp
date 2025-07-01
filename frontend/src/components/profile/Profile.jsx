@@ -14,7 +14,7 @@ export default function Profile({ user }) {
             <img
               src={user && user.pp_Url}
               alt="Movie Poster"
-              className="rounded-full shadow-lg object-cover w-64 h-64"
+              className="rounded-full shadow-lg object-cover lg:w-64 lg:h-64 sm:w-64 sm:h-64"
             />
           </div>
         </div>

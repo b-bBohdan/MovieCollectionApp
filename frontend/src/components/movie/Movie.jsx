@@ -15,7 +15,6 @@ export default function Movie({ movie, ...props }) {
     if (movie && userId) {
       const isLiked = movie.likedByUsers.some((id) => id.toString() === userId);
       setLiked(isLiked);
-      console.log("USEEEEE EFFEEEEEECT");
     }
     if (!isAuthenticated) {
       setLiked(false);
