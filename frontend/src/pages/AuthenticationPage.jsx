@@ -1,4 +1,4 @@
-import AuthForm from "../components/AuthForm";
+import AuthForm from "../components/forms/AuthForm";
 import { redirect, useLocation } from "react-router-dom";
 
 export default function AuthenticationPage() {

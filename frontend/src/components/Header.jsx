@@ -41,6 +41,7 @@ export default function Header() {
             </a>
             {!isAuthenticated && (
               <button
+                name="login"
                 onClick={() => {
                   setShowLogin((prew) => !prew);
                 }}

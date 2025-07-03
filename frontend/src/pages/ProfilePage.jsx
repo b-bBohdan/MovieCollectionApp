@@ -16,7 +16,7 @@ export default function ProfilePage() {
     <>
       <Profile user={user}></Profile>
       <div className="text-base md:text-3xl text-left">
-        <strong> Your liked likedMovies:</strong>
+        <strong> Your liked Movies:</strong>
       </div>
 
       <Suspense fallback={<GhostContainer type="smallcontainer" />}>

@@ -32,11 +32,10 @@ function AuthForm() {
         </ul>
       )}
       {data && data.message && <p>{data.message}</p>}
-      <Form method="post" className="space-y-4">
+      <Form method="post" className="space-y-4" id="auth-form">
         <h1 className="text-2xl font-bold text-center mb-4">
           {isLogin ? "Login" : "Register"} :3
         </h1>
-
         {!isLogin && (
           <div>
             <label htmlFor="username" className="block font-medium mb-1">
@@ -51,7 +50,6 @@ function AuthForm() {
             />
           </div>
         )}
-
         <div>
           <label htmlFor="email" className="block font-medium mb-1">
             Email
@@ -65,7 +63,6 @@ function AuthForm() {
             className="w-full p-2 border border-gray-300 rounded-md"
           />
         </div>
-
         <div>
           <label htmlFor="password" className="block font-medium mb-1">
             Password
@@ -79,14 +76,12 @@ function AuthForm() {
             className="w-full p-2 border border-gray-300 rounded-md"
           />
         </div>
-
         <button
           onClick={handleGoogleLogin}
           className="px-4 py-2 bg-blue-500  hover:bg-blue-800 text-white rounded"
         >
           Continue with Google
         </button>
-
         <div className="flex justify-end items-center gap-4 mt-4">
           <Link
             to={`?mode=${isLogin ? "signup" : "login"}`}
@@ -95,6 +90,7 @@ function AuthForm() {
             {isLogin ? "Create new user" : "Login"}
           </Link>
           <button
+            id="submit-btn"
             type="submit"
             disabled={false}
             className="px-6 py-2 rounded-md bg-gray-300 text-gray-800 hover:bg-blue-300 transition-colors"

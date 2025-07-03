@@ -49,10 +49,6 @@ if (!process.env.GOOGLE_CLIENT_ID) {
 
 if (!process.env.GOOGLE_CLIENT_SECRET) {
   throw new Error("Missing environment variable GOOGLE_CLIENT_SECRET");
-} else {
-  console.log(
-    "koiyutrxerxhtjcykvgukojiHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU"
-  );
 }
 
 passport.use(
