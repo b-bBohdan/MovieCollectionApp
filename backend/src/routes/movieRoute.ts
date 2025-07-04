@@ -26,7 +26,7 @@ movieRouter.get(
 movieRouter.get("/:id", getMovie);
 
 movieRouter.post("/post", verifyToken, postMovie);
-movieRouter.patch("/:id", patchMovie);
+movieRouter.patch("/:id", verifyToken, patchMovie);
 movieRouter.delete("/:id", verifyToken, deleteMovie);
 
 export default movieRouter;

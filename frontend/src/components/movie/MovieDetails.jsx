@@ -47,12 +47,13 @@ export default function MovieDetail({ movie }) {
           headers: { "Content-Type": "application/json" },
         }
       );
-      if (response.ok) {
-        alert("Deleting succesful");
-        navigate("..");
-      } else {
-        alert("Already deleted");
+      if (!response.ok) {
+        alert("You need to authorize first");
+        navigate("/auth");
+        return;
       }
+      alert("deleted");
+      navigate("/");
     } catch (err) {
       alert("Something went wrong during deletion.");
       console.error(err);

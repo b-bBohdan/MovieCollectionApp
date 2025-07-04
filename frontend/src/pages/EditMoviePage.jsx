@@ -1,13 +1,13 @@
 import { useLoaderData } from "react-router-dom";
 import { redirect } from "react-router-dom";
-import EditingMovie from "../components/forms/EditingMovie";
+import MovieForm from "../components/forms/MovieForm";
 
 export default function EditMoviePage() {
   const movie = useLoaderData();
 
   return (
     <>
-      <EditingMovie movie={movie.movie}></EditingMovie>
+      <MovieForm movie={movie.movie}></MovieForm>
     </>
   );
 }
@@ -25,11 +25,15 @@ export async function action({ request, params }) {
     Poster: formData.get("poster"),
   };
   // console.log(params.id);
-  await fetch(`http://localhost:3000/movies/${params.id}`, {
+  const response = await fetch(`http://localhost:3000/movies/${params.id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(updatedMovie),
+    credentials: "include",
   });
 
+  if (!response.ok) {
+    return redirect(`http://localhost:5173/auth`);
+  }
   return redirect(`http://localhost:5173/${params.id}`);
 }

@@ -1,9 +1,8 @@
 import { redirect } from "react-router-dom";
-import EditingMovie from "../components/forms/EditingMovie";
-import AddMovie from "../components/forms/AddMovie";
+import MovieForm from "../components/forms/MovieForm";
 
 export default function AddMoviePage() {
-  return <AddMovie></AddMovie>;
+  return <MovieForm></MovieForm>;
 }
 
 export async function action({ request }) {
@@ -27,7 +26,7 @@ export async function action({ request }) {
     credentials: "include",
   });
   if (!response.ok) {
-    return redirect(`http://localhost:5173/register`);
+    return redirect(`http://localhost:5173/auth`);
   }
 
   return redirect(`http://localhost:5173/`);

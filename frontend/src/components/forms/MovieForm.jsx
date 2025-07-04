@@ -1,19 +1,19 @@
-import { Form, redirect, useNavigate } from "react-router-dom";
+import { Form, redirect, useNavigate, Link } from "react-router-dom";
 
-export default function EditingMovie({ movie }) {
+export default function MovieForm({ movie }) {
   const navigate = useNavigate();
-   // console.log(movie);
+  // console.log(movie);
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <h2 className="text-3xl font-bold">Edit Movie</h2>
+      <h2 className="text-3xl font-bold">{movie ? "Edit" : "Add"} Movie</h2>
 
-      <Form method="POST" className="space-y-4">
+      <Form method={movie ? "PATCH" : "POST"} className="space-y-4">
         <div>
           <label className="block font-semibold mb-1">Title</label>
           <input
             type="text"
             name="title"
-            defaultValue={movie.Title}
+            defaultValue={movie?.Title}
             required
             className="w-full border rounded px-4 py-2"
           />
@@ -23,7 +23,7 @@ export default function EditingMovie({ movie }) {
           <label className="block font-semibold mb-1">Description</label>
           <textarea
             name="description"
-            defaultValue={movie.Description}
+            defaultValue={movie?.Description}
             className="w-full border rounded px-4 py-2"
             rows={4}
           />
@@ -35,20 +35,22 @@ export default function EditingMovie({ movie }) {
             <input
               type="number"
               name="year"
-              defaultValue={movie.Year}
+              defaultValue={movie?.Year}
               required
               className="w-full border rounded px-4 py-2"
             />
           </div>
           <div>
-            <label className="block font-semibold mb-1">Rating (out of 5)</label>
+            <label className="block font-semibold mb-1">
+              Rating (out of 5)
+            </label>
             <input
               type="number"
               name="rating"
               min="0"
               max="5"
               step="0.1"
-              defaultValue={movie.Rating}
+              defaultValue={movie?.Rating}
               required
               className="w-full border rounded px-4 py-2"
             />
@@ -59,7 +61,7 @@ export default function EditingMovie({ movie }) {
           <input
             type="number"
             name="ratings"
-            defaultValue={movie.Ratings}
+            defaultValue={movie?.Ratings}
             required
             className="w-full border rounded px-4 py-2"
           />
@@ -69,7 +71,7 @@ export default function EditingMovie({ movie }) {
           <input
             type="text"
             name="imdbID"
-            defaultValue={movie.imdbID}
+            defaultValue={movie?.imdbID}
             required
             className="w-full border rounded px-4 py-2"
           />
@@ -79,7 +81,7 @@ export default function EditingMovie({ movie }) {
           <input
             type="text"
             name="type"
-            defaultValue={movie.Type}
+            defaultValue={movie?.Type}
             required
             className="w-full border rounded px-4 py-2"
           />
@@ -89,7 +91,7 @@ export default function EditingMovie({ movie }) {
           <input
             type="url"
             name="poster"
-            defaultValue={movie.Poster}
+            defaultValue={movie?.Poster}
             required
             className="w-full border rounded px-4 py-2"
           />
@@ -102,15 +104,14 @@ export default function EditingMovie({ movie }) {
           >
             Save Changes
           </button>
-          <button
-            onClick={redirect(`/movies/${movie.imdbID}`)}
+          <Link
+            to={`/${movie ? movie.imdbID : ""}`}
             className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full shadow"
           >
             Cancel
-          </button>
+          </Link>
         </div>
       </Form>
     </div>
   );
 }
-
