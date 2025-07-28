@@ -1,13 +1,17 @@
 import { Link, Form, useNavigation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function LoginModal({ onClose }) {
+  const [submitted, setSubmitted] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (navigation.state === "idle") {
-      // login form submitted, redirect happened, close modal
+    if (navigation.state === "submitting") {
+      setSubmitted(true);
+    }
+    if (submitted && navigation.state === "idle") {
       onClose();
+      setSubmitted(false);
     }
   }, [navigation.state]);
 

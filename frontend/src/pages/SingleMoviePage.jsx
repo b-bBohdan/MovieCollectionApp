@@ -27,7 +27,7 @@ async function loadEvent(Id) {
   if (!response.ok) {
     // throw json({message: "Couldnt fetch the data"}, {status:500})
     throw new Response(
-      JSON.stringify({ message: " coulddddddddnot fetch data " }),
+      JSON.stringify({ message: " coulddddddddnot fetch data , movie detail" }),
       { status: 500 }
     );
   } else {

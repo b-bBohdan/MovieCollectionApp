@@ -53,7 +53,7 @@ router.get("/google/movies", (req, res, next) => {
         maxAge: 60 * 60 * 1000, // 1 hour
       });
 
-      res.redirect("http://localhost:5173/");
+      return res.redirect(`${process.env.FRONTEND_URL}`);
     }
   )(req, res, next);
 });

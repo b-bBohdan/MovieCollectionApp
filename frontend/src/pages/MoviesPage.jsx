@@ -72,5 +72,7 @@ export async function action({ request }) {
     credentials: "include",
   });
 
-  return redirect(`http://localhost:5173/`);
+  if (!response.ok) return redirect(`${import.meta.env.VITE_API_URL}/auth`);
+
+  return redirect("/");
 }

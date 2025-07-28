@@ -33,7 +33,7 @@ export async function action({ request, params }) {
   });
 
   if (!response.ok) {
-    return redirect(`http://localhost:5173/auth`);
+    return redirect(`/auth`);
   }
-  return redirect(`http://localhost:5173/${params.id}`);
+  return redirect(`/${params.id}`);
 }

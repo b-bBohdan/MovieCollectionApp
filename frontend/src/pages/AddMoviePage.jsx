@@ -26,8 +26,8 @@ export async function action({ request }) {
     credentials: "include",
   });
   if (!response.ok) {
-    return redirect(`http://localhost:5173/auth`);
+    return redirect("/auth");
   }
 
-  return redirect(`http://localhost:5173/`);
+  return redirect("/");
 }

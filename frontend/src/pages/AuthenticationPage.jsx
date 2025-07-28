@@ -39,8 +39,8 @@ export async function action({ request }) {
     credentials: "include",
   });
   if (!response.ok) {
-    return redirect(`http://localhost:5173/register`);
+    return redirect("/register");
   }
 
-  return redirect(`http://localhost:5173/`);
+  return redirect("/");
 }

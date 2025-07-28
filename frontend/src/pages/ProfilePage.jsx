@@ -55,7 +55,9 @@ async function loadLikedMoviess() {
     if (!response.ok) {
       // throw json({message: "Couldnt fetch the data"}, {status:500})
       throw new Response(
-        JSON.stringify({ message: " coulddddddddnot fetch data " }),
+        JSON.stringify({
+          message: " coulddddddddnot fetch data , error of finding likes ",
+        }),
         { status: 500 }
       );
     } else {
@@ -64,7 +66,7 @@ async function loadLikedMoviess() {
     }
   } catch {
     throw new Response(
-      JSON.stringify({ message: " coulddddddddnot fetch data " }),
+      JSON.stringify({ message: " coulddddddddnot fetch data , syntax err " }),
       { status: 500 }
     );
   }
